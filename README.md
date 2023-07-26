@@ -2,6 +2,10 @@
 
 ### 基础模块
 * 结果分析模块
+> 提供了几个标准的key常量(TP、FP、TN、FN、INVALID、NA、TPR、FPR、PRE)<br>
+> 提供了几个标准的value常量(非合法数值NaN、默认小数保留位数ToFixed)<br>
+> SimpleCalculator简单计算器<br>
+> AdvancedCalculator高级计算器<br>
 
 ### 启动器
 * minio-spring-boot-starter(当前版本apple)

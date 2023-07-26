@@ -5,10 +5,27 @@ import org.sensetimeframework.statistics.exception.ParamIllegalException;
 import org.sensetimeframework.statistics.message.Message;
 
 public class AdvancedCalculator {
+    /**
+     * 根据混淆矩阵调整其正负样本比例，返回调整后的混淆矩阵
+     *
+     * @param confusionMatrix 目标混淆矩阵
+     * @param positive 调整后正样本的比例
+     * @param negative 调整后负样本的比例
+     * @return 调整后的混淆矩阵
+     */
     public static ConfusionMatrix adjustPnRate(ConfusionMatrix confusionMatrix,Integer positive,Integer negative) throws ParamIllegalException {
         return adjustRate(confusionMatrix.getPositivePart(),confusionMatrix.getNegativePart(),positive,negative);
     }
 
+    /**
+     * 调整两个混淆矩阵，返回调整后的混淆矩阵
+     *
+     * @param confusionMatrix1 第一个混淆矩阵
+     * @param confusionMatrix2 第二个混淆矩阵
+     * @param share1 调整后第一个混淆矩阵所占比例
+     * @param share2 调整后第二个混淆矩阵所占比例
+     * @return 调整后的混淆矩阵
+     */
     public static ConfusionMatrix adjustRate(ConfusionMatrix confusionMatrix1,ConfusionMatrix confusionMatrix2,Integer share1,Integer share2) throws ParamIllegalException {
         if(share1 < 0 || share2 < 0 || confusionMatrix1 == null || confusionMatrix2 == null){
             throw new ParamIllegalException(Message.PARAM_ILLEGAL);
