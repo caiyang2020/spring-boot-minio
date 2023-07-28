@@ -14,7 +14,7 @@ public class AdvancedCalculator {
      * @return 调整后的混淆矩阵
      */
     public static ConfusionMatrix adjustPnRate(ConfusionMatrix confusionMatrix, Integer positive, Integer negative) throws ParamIllegalException {
-        return adjustRate(confusionMatrix.getPositivePart(),confusionMatrix.getNegativePart(),positive,negative);
+        return adjustRate(confusionMatrix.getPositivePart(), confusionMatrix.getNegativePart(), positive, negative);
     }
 
     /**
@@ -32,7 +32,7 @@ public class AdvancedCalculator {
         }
 
         if (share1 == 0 && share2 == 0) {
-            return SimpleCalculator.add(confusionMatrix1,confusionMatrix2);
+            return SimpleCalculator.add(confusionMatrix1, confusionMatrix2);
         } else if (share1 == 0) {
             return confusionMatrix2.deepCopy();
         } else if (share2 == 0) {
@@ -42,7 +42,7 @@ public class AdvancedCalculator {
             long validSize2 = confusionMatrix2.getValidSize();
 
             if (validSize1 == 0L || validSize2 == 0L) {
-                return new ConfusionMatrix(0L,0L,0L,0L,0L,0L);
+                return new ConfusionMatrix(0L, 0L, 0L, 0L, 0L, 0L);
             } else {
                 long multiple1 = share1 * validSize2;
                 long multiple2 = share2 * validSize1;

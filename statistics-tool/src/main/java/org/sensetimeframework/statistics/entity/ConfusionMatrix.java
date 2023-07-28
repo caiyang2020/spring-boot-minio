@@ -16,15 +16,15 @@ public class ConfusionMatrix {
     private Long NA = 0L;
 
     public ConfusionMatrix deepCopy() {
-        return new ConfusionMatrix(TP,FP,TN,FN, INVALID,NA);
+        return new ConfusionMatrix(TP, FP, TN, FN, INVALID, NA);
     }
 
     public ConfusionMatrix getPositivePart() {
-        return new ConfusionMatrix(TP,0L,0L,FN,0L,0L);
+        return new ConfusionMatrix(TP, 0L, 0L, FN, 0L, 0L);
     }
 
     public ConfusionMatrix getNegativePart() {
-        return new ConfusionMatrix(0L,FP,TN,0L,0L,0L);
+        return new ConfusionMatrix(0L, FP, TN, 0L, 0L, 0L);
     }
 
     public Long getSize() {

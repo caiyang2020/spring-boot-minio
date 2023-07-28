@@ -1,10 +1,11 @@
 package org.sensetimeframework.statistics.adaptor;
 
-import org.sensetimeframework.statistics.constant.KeyConstant;
 import org.sensetimeframework.statistics.constant.ValueConstant;
 import org.sensetimeframework.statistics.entity.ConfusionMatrix;
 import org.sensetimeframework.statistics.entity.EvaluationIndicator;
 import org.sensetimeframework.statistics.entity.ResultSet;
+import org.sensetimeframework.statistics.enumeration.EvaluationIndexEnum;
+import org.sensetimeframework.statistics.enumeration.TestResultEnum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,22 +30,22 @@ public class Adaptor {
 
         ConfusionMatrix confusionMatrix = new ConfusionMatrix();
 
-        long TP = resMap.get(KeyConstant.TP) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.TP)));
+        long TP = resMap.get(TestResultEnum.TP.name()) == null? 0L : Long.parseLong(String.valueOf(resMap.get(TestResultEnum.TP.name())));
         confusionMatrix.setTP(TP);
 
-        long FP = resMap.get(KeyConstant.FP) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.FP)));
+        long FP = resMap.get(TestResultEnum.FP.name()) == null? 0L : Long.parseLong(String.valueOf(resMap.get(TestResultEnum.FP.name())));
         confusionMatrix.setTP(FP);
 
-        long TN = resMap.get(KeyConstant.TN) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.TN)));
+        long TN = resMap.get(TestResultEnum.TN.name()) == null? 0L : Long.parseLong(String.valueOf(resMap.get(TestResultEnum.TN.name())));
         confusionMatrix.setTP(TN);
 
-        long FN = resMap.get(KeyConstant.FN) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.FN)));
+        long FN = resMap.get(TestResultEnum.FN.name()) == null? 0L : Long.parseLong(String.valueOf(resMap.get(TestResultEnum.FN.name())));
         confusionMatrix.setTP(FN);
 
-        long INVALID = resMap.get(KeyConstant.INVALID) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.INVALID)));
+        long INVALID = resMap.get(TestResultEnum.INVALID.name()) == null? 0L : Long.parseLong(String.valueOf(resMap.get(TestResultEnum.INVALID.name())));
         confusionMatrix.setTP(INVALID);
 
-        long NA = resMap.get(KeyConstant.NA) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.NA)));
+        long NA = resMap.get(TestResultEnum.NA.name()) == null? 0L : Long.parseLong(String.valueOf(resMap.get(TestResultEnum.NA.name())));
         confusionMatrix.setTP(NA);
 
         return confusionMatrix;
@@ -54,12 +55,12 @@ public class Adaptor {
         Map<String,Object> resMap = new HashMap<>();
 
         if (confusionMatrix != null) {
-            resMap.put(KeyConstant.TP,confusionMatrix.getTP());
-            resMap.put(KeyConstant.FP,confusionMatrix.getFP());
-            resMap.put(KeyConstant.TN,confusionMatrix.getTN());
-            resMap.put(KeyConstant.FN,confusionMatrix.getFN());
-            resMap.put(KeyConstant.INVALID,confusionMatrix.getINVALID());
-            resMap.put(KeyConstant.NA,confusionMatrix.getNA());
+            resMap.put(TestResultEnum.TP.name(), confusionMatrix.getTP());
+            resMap.put(TestResultEnum.FP.name(), confusionMatrix.getFP());
+            resMap.put(TestResultEnum.TN.name(), confusionMatrix.getTN());
+            resMap.put(TestResultEnum.FN.name(), confusionMatrix.getFN());
+            resMap.put(TestResultEnum.INVALID.name(), confusionMatrix.getINVALID());
+            resMap.put(TestResultEnum.NA.name(), confusionMatrix.getNA());
         }
 
         return resMap;
@@ -69,9 +70,9 @@ public class Adaptor {
         Map<String, Object> resMap = new HashMap<>();
 
         if (evaluationIndicator != null) {
-            resMap.put(KeyConstant.TPR,evaluationIndicator.getTPR() == null? ValueConstant.NaN : evaluationIndicator.getTPR());
-            resMap.put(KeyConstant.FPR,evaluationIndicator.getFPR() == null? ValueConstant.NaN : evaluationIndicator.getFPR());
-            resMap.put(KeyConstant.PRE,evaluationIndicator.getPRE() == null? ValueConstant.NaN : evaluationIndicator.getPRE());
+            resMap.put(EvaluationIndexEnum.TPR.name(), evaluationIndicator.getTPR() == null? ValueConstant.NaN : evaluationIndicator.getTPR());
+            resMap.put(EvaluationIndexEnum.FPR.name(), evaluationIndicator.getFPR() == null? ValueConstant.NaN : evaluationIndicator.getFPR());
+            resMap.put(EvaluationIndexEnum.PRE.name(), evaluationIndicator.getPRE() == null? ValueConstant.NaN : evaluationIndicator.getPRE());
         }
 
         return resMap;
