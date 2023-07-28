@@ -15,23 +15,23 @@ public class ConfusionMatrix {
     private Long invalid = 0L;
     private Long NA = 0L;
 
-    public ConfusionMatrix deepCopy(){
+    public ConfusionMatrix deepCopy() {
         return new ConfusionMatrix(TP,FP,TN,FN,invalid,NA);
     }
 
-    public ConfusionMatrix getPositivePart(){
+    public ConfusionMatrix getPositivePart() {
         return new ConfusionMatrix(TP,0L,0L,FN,0L,0L);
     }
 
-    public ConfusionMatrix getNegativePart(){
+    public ConfusionMatrix getNegativePart() {
         return new ConfusionMatrix(0L,FP,TN,0L,0L,0L);
     }
 
-    public Long getSize(){
+    public Long getSize() {
         return TP + FP + TN + FN + invalid + NA;
     }
 
-    public Long getValidSize(){
+    public Long getValidSize() {
         return TP + FP + TN + FN;
     }
 }

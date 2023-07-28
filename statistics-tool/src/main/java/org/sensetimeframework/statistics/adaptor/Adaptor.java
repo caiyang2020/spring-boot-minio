@@ -10,21 +10,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Adaptor {
-    public static Map<String,Object> mapKeyToUpperCase(Map<String,Object> sourceMap){
+    public static Map<String,Object> mapKeyToUpperCase(Map<String, Object> sourceMap) {
         Map<String,Object> resMap = new HashMap<>();
 
-        if(sourceMap == null){
+        if (sourceMap == null) {
             return resMap;
         }
 
-        for(String oldKey:sourceMap.keySet()){
-            resMap.put(oldKey.toUpperCase(),sourceMap.get(oldKey));
+        for (String oldKey : sourceMap.keySet()) {
+            resMap.put(oldKey.toUpperCase(), sourceMap.get(oldKey));
         }
 
         return resMap;
     }
 
-    public static ConfusionMatrix mapToConfusionMatrix(Map<String,Object> sourceMap){
+    public static ConfusionMatrix mapToConfusionMatrix(Map<String, Object> sourceMap) {
         Map<String, Object> resMap = mapKeyToUpperCase(sourceMap);
 
         ConfusionMatrix confusionMatrix = new ConfusionMatrix();
@@ -50,10 +50,10 @@ public class Adaptor {
         return confusionMatrix;
     }
 
-    public static Map<String,Object> confusionMatrixToMap(ConfusionMatrix confusionMatrix){
+    public static Map<String, Object> confusionMatrixToMap(ConfusionMatrix confusionMatrix) {
         Map<String,Object> resMap = new HashMap<>();
 
-        if(confusionMatrix != null){
+        if (confusionMatrix != null) {
             resMap.put(KeyConstant.TP,confusionMatrix.getTP());
             resMap.put(KeyConstant.FP,confusionMatrix.getFP());
             resMap.put(KeyConstant.TN,confusionMatrix.getTN());
@@ -65,10 +65,10 @@ public class Adaptor {
         return resMap;
     }
 
-    public static Map<String,Object> evaluationIndicatorToMap(EvaluationIndicator evaluationIndicator){
-        Map<String,Object> resMap = new HashMap<>();
+    public static Map<String, Object> evaluationIndicatorToMap(EvaluationIndicator evaluationIndicator) {
+        Map<String, Object> resMap = new HashMap<>();
 
-        if(evaluationIndicator != null){
+        if (evaluationIndicator != null) {
             resMap.put(KeyConstant.TPR,evaluationIndicator.getTPR() == null? ValueConstant.NaN : evaluationIndicator.getTPR());
             resMap.put(KeyConstant.FPR,evaluationIndicator.getFPR() == null? ValueConstant.NaN : evaluationIndicator.getFPR());
             resMap.put(KeyConstant.PRE,evaluationIndicator.getPRE() == null? ValueConstant.NaN : evaluationIndicator.getPRE());
@@ -77,8 +77,8 @@ public class Adaptor {
         return resMap;
     }
 
-    public static Map<String,Object> resultSetToMap(ResultSet resultSet){
-        if(resultSet == null){
+    public static Map<String, Object> resultSetToMap(ResultSet resultSet) {
+        if (resultSet == null) {
             return new HashMap<>();
         }
 

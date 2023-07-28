@@ -13,14 +13,14 @@ public class SimpleCalculator {
      * @param addend 第二个混淆矩阵
      * @return 相加后的混淆矩阵
      */
-    public static ConfusionMatrix add(ConfusionMatrix augend,ConfusionMatrix addend){
+    public static ConfusionMatrix add(ConfusionMatrix augend, ConfusionMatrix addend) {
         long TP = augend.getTP() + addend.getTP();
         long FP = augend.getFP() + addend.getFP();
         long TN = augend.getTN() + addend.getTN();
         long FN = augend.getFN() + addend.getFN();
         long invalid = augend.getInvalid() + addend.getInvalid();
         long NA = augend.getNA() + addend.getNA();
-        return new ConfusionMatrix(TP,FP,TN,FN,invalid,NA);
+        return new ConfusionMatrix(TP, FP, TN, FN, invalid, NA);
     }
 
     /**
@@ -30,14 +30,14 @@ public class SimpleCalculator {
      * @param multiple 扩大倍数
      * @return 扩大后的混淆矩阵
      */
-    public static ConfusionMatrix multiply(ConfusionMatrix confusionMatrix,Long multiple){
+    public static ConfusionMatrix multiply(ConfusionMatrix confusionMatrix, Long multiple) {
         long TP = confusionMatrix.getTP() * multiple;
         long FP = confusionMatrix.getFP() * multiple;
         long TN = confusionMatrix.getTN() * multiple;
         long FN = confusionMatrix.getFN() * multiple;
         long invalid = confusionMatrix.getInvalid() * multiple;
         long NA = confusionMatrix.getNA() * multiple;
-        return new ConfusionMatrix(TP,FP,TN,FN,invalid,NA);
+        return new ConfusionMatrix(TP, FP, TN, FN, invalid, NA);
     }
 
     /**
@@ -46,8 +46,8 @@ public class SimpleCalculator {
      * @param confusionMatrix 目标混淆矩阵
      * @return 评价指标
      */
-    public static EvaluationIndicator evaluate(ConfusionMatrix confusionMatrix){
-        return evaluate(confusionMatrix,ValueConstant.ToFixed);
+    public static EvaluationIndicator evaluate(ConfusionMatrix confusionMatrix) {
+        return evaluate(confusionMatrix, ValueConstant.ToFixed);
     }
 
     /**
@@ -57,12 +57,12 @@ public class SimpleCalculator {
      * @param toFixed 保留位数
      * @return 评价指标
      */
-    public static EvaluationIndicator evaluate(ConfusionMatrix confusionMatrix,Integer toFixed){
-        String TPR = evaluateTPR(confusionMatrix,toFixed);
-        String FPR = evaluateFPR(confusionMatrix,toFixed);
-        String PRE = evaluatePRE(confusionMatrix,toFixed);
+    public static EvaluationIndicator evaluate(ConfusionMatrix confusionMatrix, Integer toFixed) {
+        String TPR = evaluateTPR(confusionMatrix, toFixed);
+        String FPR = evaluateFPR(confusionMatrix, toFixed);
+        String PRE = evaluatePRE(confusionMatrix, toFixed);
 
-        return new EvaluationIndicator(TPR,FPR,PRE);
+        return new EvaluationIndicator(TPR, FPR, PRE);
     }
 
     /**
@@ -71,8 +71,8 @@ public class SimpleCalculator {
      * @param confusionMatrix 目标混淆矩阵
      * @return 评价指标之TPR
      */
-    public static String evaluateTPR(ConfusionMatrix confusionMatrix){
-        return evaluateTPR(confusionMatrix,ValueConstant.ToFixed);
+    public static String evaluateTPR(ConfusionMatrix confusionMatrix) {
+        return evaluateTPR(confusionMatrix, ValueConstant.ToFixed);
     }
 
     /**
@@ -81,8 +81,8 @@ public class SimpleCalculator {
      * @param confusionMatrix 目标混淆矩阵
      * @return 评价指标之FPR
      */
-    public static String evaluateFPR(ConfusionMatrix confusionMatrix){
-        return evaluateFPR(confusionMatrix,ValueConstant.ToFixed);
+    public static String evaluateFPR(ConfusionMatrix confusionMatrix) {
+        return evaluateFPR(confusionMatrix, ValueConstant.ToFixed);
     }
 
     /**
@@ -91,8 +91,8 @@ public class SimpleCalculator {
      * @param confusionMatrix 目标混淆矩阵
      * @return 评价指标之PRE
      */
-    public static String evaluatePRE(ConfusionMatrix confusionMatrix){
-        return evaluatePRE(confusionMatrix,ValueConstant.ToFixed);
+    public static String evaluatePRE(ConfusionMatrix confusionMatrix) {
+        return evaluatePRE(confusionMatrix, ValueConstant.ToFixed);
     }
 
     /**
@@ -102,8 +102,8 @@ public class SimpleCalculator {
      * @param toFixed 保留位数
      * @return 评价指标之TPR
      */
-    public static String evaluateTPR(ConfusionMatrix confusionMatrix,Integer toFixed){
-        return Util.divide(confusionMatrix.getTP(), confusionMatrix.getTP() + confusionMatrix.getFN(),toFixed);
+    public static String evaluateTPR(ConfusionMatrix confusionMatrix, Integer toFixed) {
+        return Util.divide(confusionMatrix.getTP(), confusionMatrix.getTP() + confusionMatrix.getFN(), toFixed);
     }
 
     /**
@@ -113,8 +113,8 @@ public class SimpleCalculator {
      * @param toFixed 保留位数
      * @return 评价指标之FPR
      */
-    public static String evaluateFPR(ConfusionMatrix confusionMatrix,Integer toFixed){
-        return Util.divide(confusionMatrix.getFP(), confusionMatrix.getFP() + confusionMatrix.getTN(),toFixed);
+    public static String evaluateFPR(ConfusionMatrix confusionMatrix, Integer toFixed) {
+        return Util.divide(confusionMatrix.getFP(), confusionMatrix.getFP() + confusionMatrix.getTN(), toFixed);
     }
 
     /**
@@ -124,7 +124,7 @@ public class SimpleCalculator {
      * @param toFixed 保留位数
      * @return 评价指标之PRE
      */
-    public static String evaluatePRE(ConfusionMatrix confusionMatrix,Integer toFixed){
-        return Util.divide(confusionMatrix.getTP(), confusionMatrix.getTP() + confusionMatrix.getFP(),toFixed);
+    public static String evaluatePRE(ConfusionMatrix confusionMatrix, Integer toFixed) {
+        return Util.divide(confusionMatrix.getTP(), confusionMatrix.getTP() + confusionMatrix.getFP(), toFixed);
     }
 }
