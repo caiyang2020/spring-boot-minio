@@ -12,11 +12,11 @@ public class ConfusionMatrix {
     private Long FP = 0L;
     private Long TN = 0L;
     private Long FN = 0L;
-    private Long invalid = 0L;
+    private Long INVALID = 0L;
     private Long NA = 0L;
 
     public ConfusionMatrix deepCopy() {
-        return new ConfusionMatrix(TP,FP,TN,FN,invalid,NA);
+        return new ConfusionMatrix(TP,FP,TN,FN, INVALID,NA);
     }
 
     public ConfusionMatrix getPositivePart() {
@@ -28,7 +28,7 @@ public class ConfusionMatrix {
     }
 
     public Long getSize() {
-        return TP + FP + TN + FN + invalid + NA;
+        return TP + FP + TN + FN + INVALID + NA;
     }
 
     public Long getValidSize() {

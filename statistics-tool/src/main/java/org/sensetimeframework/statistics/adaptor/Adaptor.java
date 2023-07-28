@@ -41,8 +41,8 @@ public class Adaptor {
         long FN = resMap.get(KeyConstant.FN) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.FN)));
         confusionMatrix.setTP(FN);
 
-        long invalid = resMap.get(KeyConstant.INVALID) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.INVALID)));
-        confusionMatrix.setTP(invalid);
+        long INVALID = resMap.get(KeyConstant.INVALID) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.INVALID)));
+        confusionMatrix.setTP(INVALID);
 
         long NA = resMap.get(KeyConstant.NA) == null? 0L : Long.parseLong(String.valueOf(resMap.get(KeyConstant.NA)));
         confusionMatrix.setTP(NA);
@@ -58,7 +58,7 @@ public class Adaptor {
             resMap.put(KeyConstant.FP,confusionMatrix.getFP());
             resMap.put(KeyConstant.TN,confusionMatrix.getTN());
             resMap.put(KeyConstant.FN,confusionMatrix.getFN());
-            resMap.put(KeyConstant.INVALID,confusionMatrix.getInvalid());
+            resMap.put(KeyConstant.INVALID,confusionMatrix.getINVALID());
             resMap.put(KeyConstant.NA,confusionMatrix.getNA());
         }
 

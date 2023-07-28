@@ -18,9 +18,9 @@ public class SimpleCalculator {
         long FP = augend.getFP() + addend.getFP();
         long TN = augend.getTN() + addend.getTN();
         long FN = augend.getFN() + addend.getFN();
-        long invalid = augend.getInvalid() + addend.getInvalid();
+        long INVALID = augend.getINVALID() + addend.getINVALID();
         long NA = augend.getNA() + addend.getNA();
-        return new ConfusionMatrix(TP, FP, TN, FN, invalid, NA);
+        return new ConfusionMatrix(TP, FP, TN, FN, INVALID, NA);
     }
 
     /**
@@ -35,9 +35,9 @@ public class SimpleCalculator {
         long FP = confusionMatrix.getFP() * multiple;
         long TN = confusionMatrix.getTN() * multiple;
         long FN = confusionMatrix.getFN() * multiple;
-        long invalid = confusionMatrix.getInvalid() * multiple;
+        long INVALID = confusionMatrix.getINVALID() * multiple;
         long NA = confusionMatrix.getNA() * multiple;
-        return new ConfusionMatrix(TP, FP, TN, FN, invalid, NA);
+        return new ConfusionMatrix(TP, FP, TN, FN, INVALID, NA);
     }
 
     /**
