@@ -240,6 +240,15 @@ public interface Template {
     InputStream downloadFolderByZip(String bucketName, String minioPath, Consumer<Integer> progressConsumer, Consumer<String> stepConsumer);
 
     /**
+     * 指定一个GET请求，返回获取文件对象的URL
+     *
+     * @param bucketName 桶名称
+     * @param objectName 文件名
+     * @return 文件链接
+     */
+    String getPresignedObjectUrl(String bucketName, String objectName);
+
+    /**
      * 指定一个GET请求，返回获取文件对象的URL，设置URL过期时间
      *
      * @param bucketName 桶名称

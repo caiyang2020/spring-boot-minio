@@ -426,6 +426,20 @@ public class MinioTemplate implements Template {
     }
 
     @Override
+    public String getPresignedObjectUrl(String bucketName, String objectName) {
+        try {
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .method(Method.GET)
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .build());
+        } catch (Exception e) {
+            throw new RuntimeException("获取文件对象URL失败!", e);
+        }
+    }
+
+    @Override
     public String getPresignedObjectUrl(String bucketName, String objectName, Integer expiry, TimeUnit timeUnit) {
         try {
             return minioClient.getPresignedObjectUrl(
