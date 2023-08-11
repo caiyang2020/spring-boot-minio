@@ -6,5 +6,5 @@ build-code-job:
   tags: 
     - dev
   script:
-    - echo "Check the ruby version, then build some Ruby project files:"
-    - pwd
+    - echo "start install program"
+    - mvn clean install -DskipTests
