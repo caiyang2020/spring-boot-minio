@@ -1,19 +1,9 @@
 stages:
   - build
-  - test
 
 build-code-job:
   stage: build
+  tag: dev
   script:
     - echo "Check the ruby version, then build some Ruby project files:"
     - pwd
-
-test-code-job1:
-  stage: test
-  script:
-    - echo "If the files are built successfully, test some files with one command:"
-
-test-code-job2:
-  stage: test
-  script:
-    - echo "If the files are built successfully, test other files with a different command:"
