@@ -3,7 +3,8 @@ stages:
 
 build-code-job:
   stage: build
-  tags: dev
+  tags: 
+    - dev
   script:
     - echo "Check the ruby version, then build some Ruby project files:"
     - pwd
