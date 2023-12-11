@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.net.URL;
+import java.net.URI;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -45,7 +45,12 @@ public class MinioTemplate implements Template {
 
     private static final String BUCKET_PARAM = "MyBucketName";
 
-    private final static String READ_WRITE = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
+    private final static String READ_WRITE = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\"," +
+            "\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucket\"," +
+            "\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "\"]}," +
+            "{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:DeleteObject\",\"s3:GetObject\"," +
+            "\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"]," +
+            "\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
 
     private final static int DEFAULT_BUFFER_SIZE = 1024 * 8;
 
@@ -258,23 +263,25 @@ public class MinioTemplate implements Template {
             Collection<File> files = FileUtils.listFiles(folder, null, true);
             int objectCount = files.size();
 
-            ExecutorService executor = new ThreadPoolExecutor(5, 10, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(20), Executors.defaultThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
-            CountDownLatch countDownLatch = new CountDownLatch(objectCount);
+            try (ExecutorService executor = new ThreadPoolExecutor(5, 10, 60, TimeUnit.SECONDS,
+                    new LinkedBlockingQueue<>(20), Executors.defaultThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy())) {
 
-            for (File file : files) {
-                String relativePath = file.getAbsolutePath().substring(folderNameLength).replace(File.separator, SEPARATOR);
-                String objectName = addSeparatorToEndIfNotExist(minioPath) + relativePath;
-                executor.execute(() -> {
-                    uploadObject(bucketName, objectName, file.getAbsolutePath());
-                    synchronized (lock) {
-                        itlFinishedCount.get().increase();
-                        provideProgressWhenChanged(itlProgress.get(), itlFinishedCount.get(), objectCount, consumer);
-                    }
-                    countDownLatch.countDown();
-                });
+                CountDownLatch countDownLatch = new CountDownLatch(objectCount);
+
+                for (File file : files) {
+                    String relativePath = file.getAbsolutePath().substring(folderNameLength).replace(File.separator, SEPARATOR);
+                    String objectName = addSeparatorToEndIfNotExist(minioPath) + relativePath;
+                    executor.execute(() -> {
+                        uploadObject(bucketName, objectName, file.getAbsolutePath());
+                        synchronized (lock) {
+                            itlFinishedCount.get().increase();
+                            provideProgressWhenChanged(itlProgress.get(), itlFinishedCount.get(), objectCount, consumer);
+                        }
+                        countDownLatch.countDown();
+                    });
+                }
+                countDownLatch.await();
             }
-            countDownLatch.await();
-            executor.shutdown();
         } catch (InterruptedException e) {
             throw new RuntimeException("上传文件夹失败!", e);
         }
@@ -395,7 +402,7 @@ public class MinioTemplate implements Template {
                         String entry = (baseDir + item.objectName().substring(objectNameWithoutSeparator.length())).replace(SEPARATOR, File.separator);
                         itl.get().put(entry, is);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("读取对象失败：{}", e.getMessage());
                     }
                     countDownLatch.countDown();
                 });
@@ -458,7 +465,7 @@ public class MinioTemplate implements Template {
     @Override
     public InputStream getObjectByUrl(String url) {
         try {
-            return new URL(url).openStream();
+            return URI.create(url).toURL().openStream();
         } catch (IOException e) {
             throw new RuntimeException("根据URL获取流失败!", e);
         }
@@ -618,24 +625,13 @@ public class MinioTemplate implements Template {
 
     private long getInterval(ZonedDateTime startTime, ZonedDateTime finishTime, TimeUnit timeUnit) throws Exception {
         Duration between = Duration.between(startTime, finishTime);
-        long interval;
-        switch (timeUnit) {
-            case SECONDS:
-                interval = between.toSeconds();
-                break;
-            case MINUTES:
-                interval = between.toMinutes();
-                break;
-            case HOURS:
-                interval = between.toHours();
-                break;
-            case DAYS:
-                interval = between.toDays();
-                break;
-            default:
-                throw new Exception("暂时不支持秒、分、时、天以外的单位");
-        }
-        return interval;
+        return switch (timeUnit) {
+            case SECONDS -> between.toSeconds();
+            case MINUTES -> between.toMinutes();
+            case HOURS -> between.toHours();
+            case DAYS -> between.toDays();
+            default -> throw new Exception("暂时不支持秒、分、时、天以外的单位");
+        };
     }
 
     private void provideProgressWhenChanged(Progress progress, Progress finishedCount, Integer total, Consumer<Integer> consumer) {

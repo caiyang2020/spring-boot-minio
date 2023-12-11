@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.sensetimeframework.minio.service.impl.MinioTemplate

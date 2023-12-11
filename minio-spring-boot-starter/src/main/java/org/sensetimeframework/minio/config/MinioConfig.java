@@ -20,7 +20,6 @@ public class MinioConfig {
 
     @Bean
     public MinioClient minioClient() {
-//        log.info("开始初始化MinioClient, url为{}, accessKey为:{}, secretKey为:{}", minioConfigProperties.getEndpoint(), minioConfigProperties.getAccessKey(), minioConfigProperties.getSecretKey());
         MinioClient minioClient = MinioClient
                 .builder()
                 .endpoint(minioConfigProperties.getEndpoint())
