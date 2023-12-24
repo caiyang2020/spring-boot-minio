@@ -52,8 +52,6 @@ public class MinioTemplate implements Template {
             "\"s3:ListMultipartUploadParts\",\"s3:PutObject\",\"s3:AbortMultipartUpload\"]," +
             "\"Resource\":[\"arn:aws:s3:::" + BUCKET_PARAM + "/*\"]}]}";
 
-    private final static int DEFAULT_BUFFER_SIZE = 1024 * 8;
-
     private final Object lock = new Object();
 
     @Override
@@ -163,7 +161,6 @@ public class MinioTemplate implements Template {
             int objectCount = (int) StreamSupport.stream(results.spliterator(), false).count();
             String removingObject;
             for (Result<Item> result : results) {
-                Duration between = Duration.between(result.get().lastModified(), ZonedDateTime.now());
                 long interval = getInterval(result.get().lastModified(), ZonedDateTime.now(), timeUnit);
                 boolean satisfied = interval > critical;
                 if (satisfied) {
